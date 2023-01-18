@@ -2,7 +2,7 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "remix build",
+    "build": "prisma migrate deploy && remix build",
     "dev": "remix dev",
     "typecheck": "tsc",
     "postinstall": "prisma generate"
