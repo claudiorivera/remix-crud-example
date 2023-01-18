@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { createCatSchema } from "~/lib/createCatSchema";
 import { prisma } from "~/lib/prisma.server";
 
@@ -14,6 +14,18 @@ export function loader({ params }: LoaderArgs) {
 
 export async function action({ request, params }: ActionArgs) {
   const formData = Object.fromEntries(await request.formData());
+
+  if (formData.action === "delete") {
+    const cat = await prisma.cat.delete({
+      where: {
+        id: params.id,
+      },
+    });
+
+    if (cat) {
+      return redirect("/");
+    }
+  }
 
   const validation = createCatSchema.safeParse(formData);
 
@@ -48,7 +60,7 @@ export default function Cat() {
     <>
       <h1>Cat Details</h1>
 
-      <Form method="post">
+      <form method="post">
         <div>
           <label>
             Name
@@ -74,7 +86,7 @@ export default function Cat() {
         </div>
 
         <button>Save Changes</button>
-      </Form>
+      </form>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, useLoaderData, useSearchParams } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { deleteCatSchema } from "~/lib/deleteCatSchema";
 import { prisma } from "~/lib/prisma.server";
 
@@ -50,7 +50,7 @@ export default function Cats() {
   return (
     <>
       <h1>All Cats</h1>
-      <Form>
+      <form>
         <label>
           Name
           <input
@@ -79,7 +79,7 @@ export default function Cats() {
         </label>
         <button type="reset">Reset</button>
         <button>Search</button>
-      </Form>
+      </form>
 
       <table>
         <thead>
@@ -97,10 +97,10 @@ export default function Cats() {
                 <a href={`/cats/${cat.id}`}>View</a>
               </td>
               <td>
-                <Form method="post">
-                  <input type="hidden" name="id" value={cat.id} />
+                <form method="post" action={`/cats/${cat.id}`}>
+                  <input type="hidden" name="action" value="delete" />
                   <button>Delete</button>
-                </Form>
+                </form>
               </td>
             </tr>
           ))}

@@ -1,7 +1,6 @@
 import type { ActionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
+import { useActionData } from "@remix-run/react";
 import { createCatSchema } from "~/lib/createCatSchema";
 import { prisma } from "~/lib/prisma.server";
 
@@ -37,7 +36,7 @@ export default function NewCat() {
     <>
       <h1>New Cat</h1>
 
-      <Form method="post">
+      <form method="post">
         <div>
           <label>
             Name
@@ -54,7 +53,7 @@ export default function NewCat() {
         </div>
 
         <button>Save Changes</button>
-      </Form>
+      </form>
     </>
   );
 }
