@@ -1,7 +1,5 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
-import { deleteCatSchema } from "~/lib/deleteCatSchema";
 import { prisma } from "~/lib/prisma.server";
 
 export function loader({ request }: LoaderArgs) {
@@ -25,22 +23,6 @@ export function loader({ request }: LoaderArgs) {
       ],
     },
   });
-}
-
-export async function action({ request }: ActionArgs) {
-  const formData = Object.fromEntries(await request.formData());
-
-  const validation = deleteCatSchema.parse(formData);
-
-  const cat = await prisma.cat.delete({
-    where: {
-      id: validation.id,
-    },
-  });
-
-  if (cat) {
-    return redirect("/");
-  }
 }
 
 export default function Cats() {
