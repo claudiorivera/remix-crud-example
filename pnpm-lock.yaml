@@ -16,7 +16,7 @@ specifiers:
   react: 18.2.0
   react-dom: 18.2.0
   typescript: 4.9.5
-  zod: 3.20.2
+  zod: 3.20.3
 
 dependencies:
   '@prisma/client': 4.9.0_prisma@4.9.0
@@ -26,7 +26,7 @@ dependencies:
   '@vercel/node': 2.9.2
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  zod: 3.20.2
+  zod: 3.20.3
 
 devDependencies:
   '@remix-run/dev': 1.12.0_@remix-run+serve@1.12.0
@@ -7597,8 +7597,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zod/3.20.2:
-    resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
+  /zod/3.20.3:
+    resolution: {integrity: sha512-+MLeeUcLTlnzVo5xDn9+LVN9oX4esvgZ7qfZczBN+YVUvZBafIrPPVyG2WdjMWU2Qkb2ZAh2M8lpqf1wIoGqJQ==}
     dev: false
 
   /zwitch/2.0.4:
