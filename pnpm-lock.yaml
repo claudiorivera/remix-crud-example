@@ -16,10 +16,10 @@ dependencies:
     version: 1.17.0(react-dom@18.2.0)(react@18.2.0)
   '@remix-run/vercel':
     specifier: 1.17.0
-    version: 1.17.0(@vercel/node@2.14.5)
+    version: 1.17.0(@vercel/node@2.15.1)
   '@vercel/node':
-    specifier: 2.14.5
-    version: 2.14.5
+    specifier: 2.15.1
+    version: 2.15.1
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -1356,6 +1356,11 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
+  /@edge-runtime/node-utils@2.0.3:
+    resolution: {integrity: sha512-JUSbi5xu/A8+D2t9B9wfirCI1J8n8q0660FfmqZgA+n3RqxD3y7SnamL1sKRE5/AbHsKs9zcqCbK2YDklbc9Bg==}
+    engines: {node: '>=14'}
+    dev: false
+
   /@edge-runtime/primitives@2.0.0:
     resolution: {integrity: sha512-AXqUq1zruTJAICrllUvZcgciIcEGHdF6KJ3r6FM0n4k8LpFxZ62tPWVIJ9HKm+xt+ncTBUZxwgUaQ73QMUQEKw==}
     dev: false
@@ -1949,14 +1954,14 @@ packages:
       set-cookie-parser: 2.5.1
       source-map: 0.7.4
 
-  /@remix-run/vercel@1.17.0(@vercel/node@2.14.5):
+  /@remix-run/vercel@1.17.0(@vercel/node@2.15.1):
     resolution: {integrity: sha512-2lcEu1geaNhKQ9gDsffEJ/GOybhiY5z7Mfbt4wMsgQ6R3fnK51bfb+C50rdQFNJLxVnL98yRCpYYbvLlmyrDGA==}
     engines: {node: '>=14'}
     peerDependencies:
       '@vercel/node': ^1.8.3 || ^2.4.0
     dependencies:
       '@remix-run/node': 1.17.0
-      '@vercel/node': 2.14.5
+      '@vercel/node': 2.15.1
     dev: false
 
   /@remix-run/web-blob@3.0.4:
@@ -2390,9 +2395,11 @@ packages:
     resolution: {integrity: sha512-nsKy2sy+pjUWyKI1V/XXKspVzHMYgSalmj5+EsKWFXZbnNZicqxNtMR94J8Hs7SB4TQxh0s4KhczJtL59AVGMg==}
     dev: false
 
-  /@vercel/node@2.14.5:
-    resolution: {integrity: sha512-0vzzeIheLWSxoF/1zMG8GwZxdxOvNLRgDMlClljCqiSa5MIXtTsmCj93JHeYo6BWgvIbiR5XrD0vt2IYqFQCug==}
+  /@vercel/node@2.15.1:
+    resolution: {integrity: sha512-TcncacgAnnrRlvuEWvZEOEP8BDuoDaEzMfMTpNa97Pj2vofYdGcXHVOVIGWrPPGh4TQoZQ48JlUTo4PfXgsOaA==}
     dependencies:
+      '@edge-runtime/node-utils': 2.0.3
+      '@edge-runtime/primitives': 2.1.2
       '@edge-runtime/vm': 2.0.0
       '@types/node': 14.18.33
       '@types/node-fetch': 2.6.3
