@@ -23,7 +23,7 @@
     "@remix-run/serve": "1.19.3",
     "@types/react": "18.2.45",
     "@types/react-dom": "18.2.18",
-    "eslint": "8.55.0",
+    "eslint": "8.56.0",
     "prisma": "5.7.0",
     "typescript": "5.3.3"
   },
