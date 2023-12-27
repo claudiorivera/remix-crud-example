@@ -1,22 +1,22 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { createCatSchema } from "~/lib/createCatSchema";
-import { prisma } from "~/lib/prisma.server";
+import { db } from "~/lib/db.server";
 
-export function loader({ params }: LoaderArgs) {
-  return prisma.cat.findUnique({
+export function loader({ params }: LoaderFunctionArgs) {
+  return db.cat.findUnique({
     where: {
       id: params.id,
     },
   });
 }
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   const formData = Object.fromEntries(await request.formData());
 
   if (formData.action === "delete") {
-    const cat = await prisma.cat.delete({
+    const cat = await db.cat.delete({
       where: {
         id: params.id,
       },
@@ -40,7 +40,7 @@ export async function action({ request, params }: ActionArgs) {
       }
     );
 
-  const cat = await prisma.cat.update({
+  const cat = await db.cat.update({
     where: {
       id: params.id,
     },
@@ -53,7 +53,7 @@ export async function action({ request, params }: ActionArgs) {
 }
 
 export default function Cat() {
-  const actionData = useActionData();
+  const actionData = useActionData<typeof action>();
   const loaderData = useLoaderData<typeof loader>();
 
   return (

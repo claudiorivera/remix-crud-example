@@ -1,11 +1,11 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
-import { prisma } from "~/lib/prisma.server";
+import { db } from "~/lib/db.server";
 
-export function loader({ request }: LoaderArgs) {
+export function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
 
-  return prisma.cat.findMany({
+  return db.cat.findMany({
     where: {
       AND: [
         {
