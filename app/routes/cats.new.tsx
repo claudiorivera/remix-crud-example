@@ -1,10 +1,10 @@
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
 import { createCatSchema } from "~/lib/createCatSchema";
-import { prisma } from "~/lib/prisma.server";
+import { db } from "~/lib/db.server";
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = Object.fromEntries(await request.formData());
 
   const validation = createCatSchema.safeParse(formData);
@@ -20,7 +20,7 @@ export async function action({ request }: ActionArgs) {
       }
     );
 
-  const cat = await prisma.cat.create({
+  const cat = await db.cat.create({
     data: validation.data,
   });
 
@@ -30,7 +30,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function NewCat() {
-  const data = useActionData();
+  const data = useActionData<typeof action>();
 
   return (
     <>
