@@ -1,13 +1,13 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
-import { createCatSchema } from "~/lib/createCatSchema";
+import { catSchema } from "~/lib/catSchema";
 import { db } from "~/lib/db.server";
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = Object.fromEntries(await request.formData());
 
-  const validation = createCatSchema.safeParse(formData);
+  const validation = catSchema.safeParse(formData);
 
   if (!validation.success)
     return json(

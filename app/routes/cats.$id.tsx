@@ -1,7 +1,7 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
-import { createCatSchema } from "~/lib/createCatSchema";
+import { catSchema } from "~/lib/catSchema";
 import { db } from "~/lib/db.server";
 
 export function loader({ params }: LoaderFunctionArgs) {
@@ -27,7 +27,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     }
   }
 
-  const validation = createCatSchema.safeParse(formData);
+  const validation = catSchema.safeParse(formData);
 
   if (!validation.success)
     return json(
