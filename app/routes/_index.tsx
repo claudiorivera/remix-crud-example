@@ -1,5 +1,11 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import {
+  json,
+  useActionData,
+  useLoaderData,
+  useSearchParams,
+} from "@remix-run/react";
+import { catSchema } from "~/lib/catSchema";
 import { db } from "~/lib/db.server";
 
 export function loader({ request }: LoaderFunctionArgs) {
@@ -25,13 +31,44 @@ export function loader({ request }: LoaderFunctionArgs) {
   });
 }
 
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = Object.fromEntries(await request.formData());
+
+  const validation = catSchema.safeParse(formData);
+
+  if (!validation.success)
+    return json(
+      {
+        fieldErrors: validation.error.flatten().fieldErrors,
+        formErrors: validation.error.flatten().formErrors,
+      },
+      {
+        status: 400,
+      }
+    );
+
+  const cat = await db.cat.create({
+    data: validation.data,
+  });
+
+  if (cat) {
+    return null;
+  }
+}
+
 export default function Cats() {
-  const data = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
+  const actionData = useActionData<typeof action>();
+
   const [searchParams] = useSearchParams();
 
   return (
     <>
-      <h1>All Cats</h1>
+      <h1>Home</h1>
+
+      <hr />
+
+      <h2>Search Cats</h2>
       <form>
         <label>
           Name
@@ -63,6 +100,7 @@ export default function Cats() {
         <button>Search</button>
       </form>
 
+      <h3>Results</h3>
       <table>
         <thead>
           <tr>
@@ -71,7 +109,7 @@ export default function Cats() {
           </tr>
         </thead>
         <tbody>
-          {data.map((cat) => (
+          {loaderData.map((cat) => (
             <tr key={cat.id}>
               <td>{cat.name}</td>
               <td>{cat.age}</td>
@@ -88,6 +126,32 @@ export default function Cats() {
           ))}
         </tbody>
       </table>
+
+      <hr />
+
+      <h2>Add New Cat</h2>
+      <form method="post" action="/?index">
+        <div>
+          <label>
+            Name
+            <input type="text" name="name" />
+            {actionData?.fieldErrors?.name && (
+              <div>{actionData.fieldErrors.name}</div>
+            )}
+          </label>
+        </div>
+        <div>
+          <label>
+            Age
+            <input type="number" inputMode="numeric" name="age" />
+            {actionData?.fieldErrors?.age && (
+              <div>{actionData.fieldErrors.age}</div>
+            )}
+          </label>
+        </div>
+
+        <button>Save Changes</button>
+      </form>
     </>
   );
 }
