@@ -14,7 +14,7 @@ jobs:
         with:
           version: latest
       - name: 🎨 Run Biome
-        run: biome ci src
+        run: biome ci app
       - name: 🏗️ Setup Bun
         uses: oven-sh/setup-bun@v1
       - name: 📦 Install Dependencies
