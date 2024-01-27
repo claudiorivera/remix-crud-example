@@ -2,21 +2,21 @@
 
 ## Prerequisites
 
-- pnpm
+- [bun](https://bun.sh)
 
 ## Install
 
-- `pnpm i`
+- `bun i`
 
 ## Setup
 
 - `cp .env.example .env`
-- `pnpm db:push`
+- `bun db:push`
 
 ## Develop
 
-- `pnpm dev`
+- `bun dev`
 
 ## Build
 
-- `pnpm build`
+- `bun run build`
