@@ -1,92 +1,92 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
-import { catSchema } from "~/lib/catSchema";
+import { catSchema } from "~/lib/cat-schema";
 import { db } from "~/lib/db.server";
 
 export function loader({ params }: LoaderFunctionArgs) {
-  return db.cat.findUnique({
-    where: {
-      id: params.id,
-    },
-  });
+	return db.cat.findUnique({
+		where: {
+			id: params.id,
+		},
+	});
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const formData = Object.fromEntries(await request.formData());
+	const formData = Object.fromEntries(await request.formData());
 
-  if (formData.action === "delete") {
-    const cat = await db.cat.delete({
-      where: {
-        id: params.id,
-      },
-    });
+	if (formData.action === "delete") {
+		const cat = await db.cat.delete({
+			where: {
+				id: params.id,
+			},
+		});
 
-    if (cat) {
-      return redirect("/");
-    }
-  }
+		if (cat) {
+			return redirect("/");
+		}
+	}
 
-  const validation = catSchema.safeParse(formData);
+	const validation = catSchema.safeParse(formData);
 
-  if (!validation.success)
-    return json(
-      {
-        fieldErrors: validation.error.flatten().fieldErrors,
-        formErrors: validation.error.flatten().formErrors,
-      },
-      {
-        status: 400,
-      }
-    );
+	if (!validation.success)
+		return json(
+			{
+				fieldErrors: validation.error.flatten().fieldErrors,
+				formErrors: validation.error.flatten().formErrors,
+			},
+			{
+				status: 400,
+			},
+		);
 
-  const cat = await db.cat.update({
-    where: {
-      id: params.id,
-    },
-    data: validation.data,
-  });
+	const cat = await db.cat.update({
+		where: {
+			id: params.id,
+		},
+		data: validation.data,
+	});
 
-  if (cat) {
-    return redirect("/");
-  }
+	if (cat) {
+		return redirect("/");
+	}
 }
 
 export default function Cat() {
-  const actionData = useActionData<typeof action>();
-  const loaderData = useLoaderData<typeof loader>();
+	const actionData = useActionData<typeof action>();
+	const loaderData = useLoaderData<typeof loader>();
 
-  return (
-    <>
-      <h1>Cat Details</h1>
+	return (
+		<>
+			<h1>Cat Details</h1>
 
-      <form method="post">
-        <div>
-          <label>
-            Name
-            <input type="text" name="name" defaultValue={loaderData?.name} />
-            {actionData?.fieldErrors?.name && (
-              <div>{actionData.fieldErrors.name}</div>
-            )}
-          </label>
-        </div>
-        <div>
-          <label>
-            Age
-            <input
-              type="number"
-              inputMode="numeric"
-              name="age"
-              defaultValue={loaderData?.age}
-            />
-            {actionData?.fieldErrors?.age && (
-              <div>{actionData.fieldErrors.age}</div>
-            )}
-          </label>
-        </div>
+			<form method="post">
+				<div>
+					<label>
+						Name
+						<input type="text" name="name" defaultValue={loaderData?.name} />
+						{actionData?.fieldErrors?.name && (
+							<div>{actionData.fieldErrors.name}</div>
+						)}
+					</label>
+				</div>
+				<div>
+					<label>
+						Age
+						<input
+							type="number"
+							inputMode="numeric"
+							name="age"
+							defaultValue={loaderData?.age}
+						/>
+						{actionData?.fieldErrors?.age && (
+							<div>{actionData.fieldErrors.age}</div>
+						)}
+					</label>
+				</div>
 
-        <button>Save Changes</button>
-      </form>
-    </>
-  );
+				<button type="submit">Save Changes</button>
+			</form>
+		</>
+	);
 }
