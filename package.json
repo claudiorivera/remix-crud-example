@@ -26,7 +26,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.6.1",
 		"@remix-run/dev": "2.8.1",
-		"@types/bun": "1.0.8",
+		"@types/bun": "1.0.10",
 		"@types/react": "18.2.67",
 		"@types/react-dom": "18.2.22",
 		"prisma": "5.11.0",
